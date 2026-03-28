@@ -3,19 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modulive — Sustainable Furniture</title>
+<title>Softera — Sustainable Furniture</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
 <style>
+/* ─────────────────────────────────────────────────────────────
+   RESET & TOKENS
+───────────────────────────────────────────────────────────── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#f2f0eb;--card:#faf9f6;--white:#fff;--black:#1a1a1a;
-  --ts:#6b6865;--tm:#9a9590;--br:#e3dfd7;--bl:#ede9e1;
-  --r8:8px;--r14:14px;--r22:22px;--r32:32px;--r48:48px;--rp:50px;
-  --s1:0 1px 6px rgba(0,0,0,.05);--s2:0 4px 18px rgba(0,0,0,.07);
-  --s3:0 10px 36px rgba(0,0,0,.10);--s4:0 20px 72px rgba(0,0,0,.13);
-  --eo:cubic-bezier(.25,.46,.45,.94);--es:cubic-bezier(.34,1.56,.64,1);
+  --bg:#f2f0eb; --card:#faf9f6; --white:#fff; --black:#1a1a1a;
+  --ts:#6b6865;  --tm:#9a9590;  --br:#e3dfd7; --bl:#ede9e1;
+  --r8:8px; --r14:14px; --r22:22px; --r32:32px; --r48:48px; --rp:50px;
+  --s1:0 1px 6px rgba(0,0,0,.05);
+  --s2:0 4px 18px rgba(0,0,0,.07);
+  --s3:0 10px 36px rgba(0,0,0,.10);
+  --s4:0 20px 72px rgba(0,0,0,.13);
+  --eo:cubic-bezier(.25,.46,.45,.94);
+  --es:cubic-bezier(.34,1.56,.64,1);
 }
 html{scroll-behavior:smooth}
 body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--black);-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -23,116 +29,260 @@ img{display:block;max-width:100%;background:#e8e4dc}
 a{text-decoration:none;color:inherit}
 button{cursor:pointer;border:none;background:none;font-family:inherit}
 
-/* KEYFRAMES */
-@keyframes fU{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
-@keyframes fS{from{opacity:0;transform:scale(.97) translateY(18px)}to{opacity:1;transform:none}}
-@keyframes fR{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:none}}
-@keyframes fI{from{opacity:0}to{opacity:1}}
+/* ─────────────────────────────────────────────────────────────
+   KEYFRAMES
+───────────────────────────────────────────────────────────── */
+@keyframes navIn  {from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+@keyframes fadeUp {from{opacity:0;transform:translateY(24px)}  to{opacity:1;transform:none}}
+@keyframes fadeIn {from{opacity:0}                             to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.96) translateY(18px)}to{opacity:1;transform:none}}
+@keyframes slideR {from{opacity:0;transform:translateX(36px)} to{opacity:1;transform:none}}
+@keyframes lineIn {from{transform:scaleX(0)}                  to{transform:scaleX(1)}}
+@keyframes countPop{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes floatUp {0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes shimmer {0%{background-position:-200% 0}100%{background-position:200% 0}}
 
-/* SCROLL REVEAL */
-.sr{opacity:0;transform:translateY(30px);transition:opacity .7s var(--eo),transform .7s var(--eo)}
-.sr.L{transform:translateX(-38px)}.sr.R{transform:translateX(38px)}
+/* ─────────────────────────────────────────────────────────────
+   SCROLL REVEAL
+───────────────────────────────────────────────────────────── */
+.sr{opacity:0;transform:translateY(32px);transition:opacity .75s var(--eo),transform .75s var(--eo)}
+.sr.L{transform:translateX(-40px)}
+.sr.R{transform:translateX(40px)}
 .sr.in{opacity:1;transform:none}
 
-/* ─── NAVBAR ─── */
-.nav{position:fixed;inset:0 0 auto;z-index:200;height:72px;padding:0 56px;
+/* ─────────────────────────────────────────────────────────────
+   NAVBAR
+───────────────────────────────────────────────────────────── */
+.nav{
+  position:fixed;inset:0 0 auto;z-index:300;
+  height:72px;padding:0 56px;
   display:flex;align-items:center;justify-content:space-between;
-  background:rgba(242,240,235,.92);backdrop-filter:blur(14px);
+  background:rgba(242,240,235,.94);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   border-bottom:1px solid rgba(227,223,215,.5);
-  animation:fI .6s var(--eo) both}
-.logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;letter-spacing:-.4px}
-.logo-mark{width:34px;height:34px;background:var(--black);border-radius:9px;display:grid;place-items:center}
+  animation:navIn .65s var(--eo) both;
+  transition:box-shadow .3s var(--eo),background .3s;
+}
+.nav.scrolled{
+  box-shadow:0 2px 32px rgba(0,0,0,.07);
+  background:rgba(242,240,235,.98);
+}
+.logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;letter-spacing:-.5px}
+.logo-mark{width:34px;height:34px;background:var(--black);border-radius:9px;display:grid;place-items:center;flex-shrink:0}
 .logo-mark svg{width:16px;height:16px;fill:#fff}
-.nav-links{display:flex;gap:38px;list-style:none}
-.nav-links a{font-size:13.5px;font-weight:500;color:var(--ts);position:relative;transition:color .2s}
-.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--black);transform:scaleX(0);transform-origin:left;transition:transform .2s}
-.nav-links a:hover{color:var(--black)}.nav-links a:hover::after{transform:scaleX(1)}
-.nav-actions{display:flex;gap:4px}
-.ni{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;color:var(--ts);transition:color .2s,background .2s,transform .2s var(--es)}
-.ni svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
-.ni:hover{color:var(--black);background:rgba(0,0,0,.06);transform:scale(1.12)}
-.ham{display:none;flex-direction:column;gap:5px;padding:6px;border-radius:8px}
-.ham span{display:block;width:22px;height:2px;background:var(--black);border-radius:2px;transition:transform .4s var(--eo),opacity .2s}
 
-/* ─── HERO ─── */
-.hero{padding-top:72px;min-height:100vh;display:flex;flex-direction:column}
-.hero-in{max-width:1280px;margin:0 auto;width:100%;padding:56px 56px 72px;flex:1;display:flex;flex-direction:column}
-.hero-text{text-align:center;margin-bottom:44px;animation:fU .9s var(--eo) .1s both}
-.hpill{display:inline-flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--br);border-radius:var(--rp);padding:5px 16px 5px 5px;margin-bottom:26px;box-shadow:var(--s1)}
-.hpill img{width:48px;height:30px;object-fit:cover;border-radius:24px}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{
+  font-size:13.5px;font-weight:500;color:var(--ts);
+  position:relative;padding-bottom:2px;
+  transition:color .22s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-2px;left:0;right:0;
+  height:1.5px;background:var(--black);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .22s var(--eo);
+}
+.nav-links a:hover,.nav-links a.active{color:var(--black)}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+
+/* hamburger only */
+.ham{display:none;flex-direction:column;gap:5px;padding:8px;border-radius:8px;transition:background .2s}
+.ham:hover{background:rgba(0,0,0,.05)}
+.ham span{display:block;width:22px;height:2px;background:var(--black);border-radius:2px;transition:transform .38s var(--eo),opacity .2s}
+
+/* ─────────────────────────────────────────────────────────────
+   HERO
+───────────────────────────────────────────────────────────── */
+#hero{padding-top:72px;min-height:100vh;display:flex;flex-direction:column}
+.hero-in{max-width:1280px;margin:0 auto;width:100%;padding:52px 56px 68px;flex:1;display:flex;flex-direction:column}
+
+.hero-text{text-align:center;margin-bottom:40px}
+
+/* pill badge */
+.hpill{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--white);border:1px solid var(--br);
+  border-radius:var(--rp);padding:5px 16px 5px 5px;
+  margin-bottom:22px;box-shadow:var(--s1);
+  animation:fadeUp .7s var(--eo) .15s both;
+}
+.hpill img{width:46px;height:28px;object-fit:cover;border-radius:22px}
 .hpill span{font-size:12px;font-weight:500;color:var(--ts)}
-.h1{font-size:clamp(44px,5.6vw,78px);font-weight:900;line-height:1.02;letter-spacing:-2.5px;max-width:800px;margin:0 auto 28px}
-.hrev{display:inline-flex;align-items:center;gap:12px;animation:fU .8s var(--eo) .35s both}
+
+/* Heading — 2-line, line-by-line reveal */
+.h1{
+  font-size:clamp(46px,5.8vw,82px);font-weight:900;
+  line-height:1.0;letter-spacing:-2.8px;
+  max-width:860px;margin:0 auto 26px;
+  overflow:hidden;
+}
+.h1-line{
+  display:block;overflow:hidden;
+}
+.h1-line span{
+  display:block;
+  animation:fadeUp .75s var(--eo) both;
+}
+.h1-line:nth-child(1) span{animation-delay:.22s}
+.h1-line:nth-child(2) span{animation-delay:.38s}
+
+/* reviews row */
+.hrev{
+  display:inline-flex;align-items:center;gap:12px;
+  animation:fadeUp .7s var(--eo) .52s both;
+}
 .avs{display:flex}
-.av{width:32px;height:32px;border-radius:50%;border:2.5px solid var(--bg);object-fit:cover;margin-left:-9px;transition:transform .2s var(--es)}
+.av{width:30px;height:30px;border-radius:50%;border:2.5px solid var(--bg);object-fit:cover;margin-left:-8px;transition:transform .2s var(--es)}
 .avs:hover .av{transform:translateX(-3px)}.av:first-child{margin-left:0}
 .hrev-txt{font-size:13px;font-weight:500;color:var(--ts)}
 .hrev-txt strong{color:var(--black);font-weight:700}
+
+/* stage */
 .stage{display:flex;align-items:flex-end;gap:20px;flex:1}
-.himgw{flex:1;position:relative;border-radius:var(--r48);overflow:hidden;animation:fS 1.1s var(--eo) .25s both}
-.himgw img{width:100%;height:520px;object-fit:cover;display:block;transition:transform .6s var(--eo)}
-.himgw:hover img{transform:scale(1.025)}
-.hcta{position:absolute;bottom:26px;right:26px;display:inline-flex;align-items:center;gap:11px;
-  background:var(--black);color:#fff;border-radius:var(--rp);padding:14px 22px;
-  font-size:14px;font-weight:600;box-shadow:var(--s3);
-  animation:fU .7s var(--eo) .8s both;
-  transition:transform .2s var(--es),box-shadow .2s,background .2s}
+.himgw{
+  flex:1;position:relative;border-radius:var(--r48);overflow:hidden;
+  animation:scaleIn 1.1s var(--eo) .28s both;
+}
+.himgw img{width:100%;height:520px;object-fit:cover;display:block;transition:transform .65s var(--eo)}
+.himgw:hover img{transform:scale(1.03)}
+
+/* CTA on hero image — "View Page" scrolls to products */
+.hcta{
+  position:absolute;bottom:26px;right:26px;
+  display:inline-flex;align-items:center;gap:11px;
+  background:var(--black);color:#fff;border-radius:var(--rp);
+  padding:14px 24px;font-size:14px;font-weight:600;
+  box-shadow:var(--s3);
+  animation:fadeUp .65s var(--eo) .85s both;
+  transition:transform .2s var(--es),box-shadow .2s,background .2s;
+}
 .hcta:hover{transform:translateY(-3px) scale(1.03);box-shadow:var(--s4);background:#2c2c2c}
 .hcta-ic{width:22px;height:22px;background:rgba(255,255,255,.18);border-radius:50%;display:grid;place-items:center}
-.hcta-ic svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+.hcta-ic svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
+
+/* floating product cards */
 .hcards{display:flex;flex-direction:column;gap:16px;width:188px;flex-shrink:0;padding-bottom:72px}
-.hcard{background:var(--white);border-radius:var(--r22);padding:14px;box-shadow:var(--s2);cursor:pointer;transition:transform .4s var(--es),box-shadow .4s var(--eo)}
-.hcard:nth-child(1){animation:fR .75s var(--eo) .55s both}
-.hcard:nth-child(2){animation:fR .75s var(--eo) .72s both}
-.hcard:hover{transform:translateY(-5px) scale(1.01);box-shadow:var(--s3)}
-.hcard img{width:100%;height:104px;object-fit:cover;border-radius:var(--r14);margin-bottom:10px;transition:transform .4s var(--eo)}
-.hcard:hover img{transform:scale(1.04)}
+.hcard{
+  background:var(--white);border-radius:var(--r22);padding:14px;
+  box-shadow:var(--s2);cursor:pointer;
+  transition:transform .4s var(--es),box-shadow .4s var(--eo);
+}
+.hcard:nth-child(1){animation:slideR .72s var(--eo) .55s both}
+.hcard:nth-child(2){animation:slideR .72s var(--eo) .70s both}
+.hcard:hover{transform:translateY(-5px) scale(1.015);box-shadow:var(--s3)}
+.hcard img{width:100%;height:100px;object-fit:cover;border-radius:var(--r14);margin-bottom:10px;transition:transform .4s var(--eo)}
+.hcard:hover img{transform:scale(1.05)}
 .hcard-n{font-size:13px;font-weight:700;margin-bottom:3px}
 .hcard-p{font-size:12px;font-weight:500;color:var(--tm)}
 
-/* ─── STATS ─── */
-.stats{padding:88px 56px;border-top:1px solid var(--bl)}
+/* ─────────────────────────────────────────────────────────────
+   STATS
+───────────────────────────────────────────────────────────── */
+#stats{padding:88px 56px;border-top:1px solid var(--bl)}
 .stats-in{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr)}
 .stat{text-align:center;padding:16px 32px;position:relative}
 .stat:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--br)}
 .stat-n{font-size:clamp(44px,4.5vw,66px);font-weight:900;letter-spacing:-3px;line-height:1;margin-bottom:14px;font-variant-numeric:tabular-nums}
+.stat-n.pop{animation:countPop .4s var(--es)}
 .stat-d{font-size:14px;color:var(--tm);line-height:1.6;max-width:180px;margin:0 auto}
 
-/* ─── PRODUCTS ─── */
-.prods{padding:80px 56px 96px;max-width:1280px;margin:0 auto}
+/* ─────────────────────────────────────────────────────────────
+   PRODUCTS
+───────────────────────────────────────────────────────────── */
+#products{padding:80px 56px 96px;max-width:1280px;margin:0 auto}
 .sh{text-align:center;margin-bottom:48px}
 .sh-t{font-size:clamp(28px,3vw,46px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:28px}
 .pills{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
-.pill{padding:10px 24px;border-radius:var(--rp);font-size:13px;font-weight:500;cursor:pointer;
+.pill{
+  padding:10px 24px;border-radius:var(--rp);font-size:13px;font-weight:500;cursor:pointer;
   border:1.5px solid var(--br);background:var(--white);color:var(--ts);
-  transition:background .2s,color .2s,border-color .2s,transform .2s var(--es),box-shadow .2s}
+  transition:background .22s,color .22s,border-color .22s,transform .22s var(--es),box-shadow .22s;
+}
 .pill:hover{background:var(--card);transform:translateY(-1px)}
 .pill.on{background:var(--black);color:#fff;border-color:var(--black);box-shadow:0 4px 16px rgba(0,0,0,.18)}
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
-.pc{background:var(--white);border-radius:var(--r32);padding:24px 22px 20px;
+.pc{
+  background:var(--white);border-radius:var(--r32);padding:24px 22px 20px;
   border:1px solid var(--bl);cursor:pointer;overflow:hidden;
-  transition:transform .4s var(--es),box-shadow .4s var(--eo),border-color .4s}
-.pc:hover{transform:translateY(-7px);box-shadow:var(--s3);border-color:var(--br)}
+  transition:transform .38s var(--es),box-shadow .38s var(--eo),border-color .38s;
+}
+.pc:hover{transform:translateY(-8px);box-shadow:var(--s3);border-color:var(--br)}
 .pc-img{border-radius:var(--r22);overflow:hidden;margin-bottom:18px;height:200px;background:var(--card)}
-.pc-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--eo)}
-.pc:hover .pc-img img{transform:scale(1.06)}
+.pc-img img{width:100%;height:100%;object-fit:cover;transition:transform .65s var(--eo)}
+.pc:hover .pc-img img{transform:scale(1.07)}
 .pc-ft{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
 .pc-n{font-size:15px;font-weight:700;margin-bottom:4px}
 .pc-p{font-size:13px;font-weight:500;color:var(--tm)}
-.arr{width:40px;height:40px;background:var(--black);border-radius:50%;display:grid;place-items:center;flex-shrink:0;transition:transform .2s var(--es),background .2s}
-.arr:hover{background:#333;transform:rotate(45deg) scale(1.1)}
-.arr svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
-/* ─── WHY ─── */
-.why{padding:80px 56px 96px;border-top:1px solid var(--bl)}
+/* Product card footer — name gets a subtle underline on card hover */
+.pc-n{position:relative;display:inline-block}
+.pc-n::after{
+  content:'';position:absolute;bottom:-2px;left:0;
+  width:100%;height:1.5px;background:var(--black);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s var(--eo);
+}
+.pc:hover .pc-n::after{transform:scaleX(1)}
+
+/* ─────────────────────────────────────────────────────────────
+   CTA BUTTONS  (Call / Email)
+───────────────────────────────────────────────────────────── */
+.cta-strip{
+  display:flex;align-items:center;justify-content:center;
+  gap:14px;flex-wrap:wrap;
+  padding:0 56px 72px;
+}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:9px;
+  border-radius:var(--rp);padding:13px 26px;
+  font-size:13.5px;font-weight:600;font-family:inherit;
+  letter-spacing:.1px;cursor:pointer;
+  transition:transform .22s var(--es),box-shadow .22s,background .22s,color .22s,border-color .22s;
+  text-decoration:none;
+}
+.cta-btn.primary{
+  background:var(--black);color:#fff;
+  box-shadow:0 4px 18px rgba(0,0,0,.12);
+  border:1.5px solid var(--black);
+}
+.cta-btn.primary:hover{
+  background:#2c2c2c;border-color:#2c2c2c;
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 8px 28px rgba(0,0,0,.18);
+}
+.cta-btn.ghost{
+  background:transparent;color:var(--black);
+  border:1.5px solid var(--br);
+}
+.cta-btn.ghost:hover{
+  border-color:var(--black);
+  background:var(--black);color:#fff;
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.cta-btn svg{
+  width:15px;height:15px;
+  stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  flex-shrink:0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   WHY CHOOSE US
+───────────────────────────────────────────────────────────── */
+#about{padding:80px 56px 96px;border-top:1px solid var(--bl)}
 .why-in{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
 .wimgw{border-radius:var(--r48);overflow:hidden;position:relative}
-.wimgw img{width:100%;height:500px;object-fit:cover;display:block;transition:transform .8s var(--eo)}
+.wimgw img{width:100%;height:500px;object-fit:cover;display:block;transition:transform .75s var(--eo)}
 .wimgw:hover img{transform:scale(1.04)}
-.wplay{position:absolute;bottom:26px;right:26px;width:58px;height:58px;background:#fff;
-  border-radius:50%;display:grid;place-items:center;box-shadow:var(--s3);cursor:pointer;
-  transition:transform .2s var(--es),box-shadow .2s}
-.wplay:hover{transform:scale(1.12);box-shadow:var(--s4)}
+.wplay{
+  position:absolute;bottom:26px;right:26px;
+  width:58px;height:58px;background:#fff;border-radius:50%;
+  display:grid;place-items:center;box-shadow:var(--s3);cursor:pointer;
+  transition:transform .22s var(--es),box-shadow .22s;
+}
+.wplay:hover{transform:scale(1.13);box-shadow:var(--s4)}
 .wplay svg{width:18px;height:18px;fill:var(--black);margin-left:3px}
 .wcap{margin-top:14px;font-size:13px;color:var(--tm);line-height:1.55;padding-left:4px}
 .wey{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--tm);margin-bottom:14px}
@@ -143,51 +293,173 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .ah{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;gap:12px}
 .at{font-size:15px;font-weight:600;color:var(--ts);transition:color .2s;line-height:1.3}
 .ai.on .at{color:var(--black)}
-.aico{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--br);display:grid;place-items:center;flex-shrink:0;transition:background .2s,border-color .2s,transform .4s var(--eo)}
+.aico{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--br);display:grid;place-items:center;flex-shrink:0;transition:background .2s,border-color .2s,transform .38s var(--eo)}
 .aico svg{width:10px;height:10px;stroke:var(--tm);fill:none;stroke-width:2;stroke-linecap:round}
 .ai.on .aico{background:var(--black);border-color:var(--black);transform:rotate(45deg)}
 .ai.on .aico svg{stroke:#fff}
-.ab{overflow:hidden;max-height:0;opacity:0;transition:max-height .5s var(--eo),opacity .3s var(--eo)}
+.ab{overflow:hidden;max-height:0;opacity:0;transition:max-height .48s var(--eo),opacity .28s var(--eo)}
 .ai.on .ab{max-height:180px;opacity:1}
 .ab p{padding-bottom:22px;font-size:13.5px;color:var(--tm);line-height:1.75;max-width:420px}
 
-/* ─── PROMO ─── */
-.promo{padding:0 56px 96px}
+/* ─────────────────────────────────────────────────────────────
+   CRAFTED COMFORT  (New Section A)
+───────────────────────────────────────────────────────────── */
+#crafted{padding:96px 56px;background:var(--bg);border-top:1px solid var(--bl)}
+.crafted-in{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+
+/* Left text */
+.cc-left{}
+.cc-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--tm);margin-bottom:18px}
+.cc-title{font-size:clamp(32px,3.4vw,52px);font-weight:900;letter-spacing:-2px;line-height:1.04;margin-bottom:22px}
+.cc-body{font-size:14.5px;line-height:1.8;color:var(--tm);max-width:400px;margin-bottom:40px}
+
+/* Feature tags */
+.cc-tags{display:flex;flex-direction:column;gap:14px}
+.cc-tag{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;border-radius:var(--r22);
+  background:var(--white);border:1px solid var(--bl);
+  transition:transform .3s var(--es),box-shadow .3s,border-color .3s;
+}
+.cc-tag:hover{transform:translateX(6px);box-shadow:var(--s2);border-color:var(--br)}
+.cc-tag-dot{width:34px;height:34px;border-radius:50%;background:var(--black);display:grid;place-items:center;flex-shrink:0}
+.cc-tag-dot svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cc-tag-info{}
+.cc-tag-name{font-size:13.5px;font-weight:700;margin-bottom:2px}
+.cc-tag-sub{font-size:12px;color:var(--tm)}
+
+/* Right image stack */
+.cc-right{position:relative;height:540px}
+.cc-img-main{
+  position:absolute;top:0;left:0;right:60px;bottom:60px;
+  border-radius:var(--r48);overflow:hidden;
+  box-shadow:var(--s3);
+}
+.cc-img-main img{width:100%;height:100%;object-fit:cover;transition:transform .75s var(--eo)}
+.cc-img-main:hover img{transform:scale(1.04)}
+.cc-img-accent{
+  position:absolute;bottom:0;right:0;width:55%;
+  border-radius:var(--r32);overflow:hidden;
+  box-shadow:var(--s4);border:4px solid var(--white);
+}
+.cc-img-accent img{width:100%;height:220px;object-fit:cover}
+
+/* Floating mini badge */
+.cc-badge{
+  position:absolute;top:32px;right:12px;
+  background:var(--white);border-radius:var(--r14);
+  padding:12px 16px;box-shadow:var(--s3);
+  font-size:12px;font-weight:600;color:var(--black);
+  border:1px solid var(--bl);
+  animation:floatUp 4s ease-in-out infinite;
+}
+.cc-badge span{display:block;font-size:11px;font-weight:500;color:var(--tm);margin-top:2px}
+
+/* ─────────────────────────────────────────────────────────────
+   PROMO BANNER
+───────────────────────────────────────────────────────────── */
+#store{padding:0 56px 96px}
 .promo-in{max-width:1280px;margin:0 auto}
 .pcard{border-radius:var(--r48);overflow:hidden;position:relative;height:520px}
 .pbg{position:absolute;inset:0;overflow:hidden}
 .pbg img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 1.4s var(--eo);display:block}
 .pcard.in .pbg img{transform:scale(1)}
-.pov{position:absolute;inset:0;background:linear-gradient(105deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.18) 55%,transparent 100%)}
-.pappt{position:absolute;top:28px;right:28px;z-index:3;background:var(--black);color:#fff;
-  border-radius:var(--rp);padding:11px 22px;font-size:13px;font-weight:600;font-family:inherit;
-  transition:transform .2s var(--es),background .2s,box-shadow .2s}
+.pov{position:absolute;inset:0;background:linear-gradient(105deg,rgba(0,0,0,.44) 0%,rgba(0,0,0,.18) 55%,transparent 100%)}
+.pappt{
+  position:absolute;top:28px;right:28px;z-index:3;
+  background:var(--black);color:#fff;border-radius:var(--rp);
+  padding:11px 22px;font-size:13px;font-weight:600;font-family:inherit;
+  transition:transform .2s var(--es),background .2s,box-shadow .2s;
+}
 .pappt:hover{transform:translateY(-2px) scale(1.03);background:#2e2e2e;box-shadow:var(--s2)}
 .pcont{position:relative;z-index:2;padding:64px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;max-width:560px}
 .ph2{font-size:clamp(26px,3.2vw,48px);font-weight:900;letter-spacing:-1.8px;line-height:1.08;color:#fff;margin-bottom:36px}
-.pbtn{display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--black);
-  border-radius:var(--rp);padding:14px 28px;font-size:14px;font-weight:700;align-self:flex-start;
-  box-shadow:var(--s2);transition:transform .2s var(--es),box-shadow .2s}
+.pbtn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#fff;color:var(--black);border-radius:var(--rp);
+  padding:14px 28px;font-size:14px;font-weight:700;align-self:flex-start;
+  box-shadow:var(--s2);transition:transform .2s var(--es),box-shadow .2s;
+}
 .pbtn:hover{transform:translateY(-3px) scale(1.02);box-shadow:var(--s3)}
 .pbtn svg{width:14px;height:14px;stroke:var(--black);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
-/* ─── NEWSLETTER ─── */
-.nl{padding:100px 56px;text-align:center;border-top:1px solid var(--bl)}
+/* ─────────────────────────────────────────────────────────────
+   INSIDE SOFTERA  (New Section B)
+───────────────────────────────────────────────────────────── */
+#inside{padding:96px 56px;border-top:1px solid var(--bl)}
+.inside-in{max-width:1280px;margin:0 auto}
+
+.inside-top{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:72px}
+.inside-left{}
+.ins-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--tm);margin-bottom:16px}
+
+/* animated text mask reveal */
+.ins-title{
+  font-size:clamp(32px,3.6vw,56px);font-weight:900;
+  letter-spacing:-2.2px;line-height:1.04;
+  position:relative;overflow:hidden;
+}
+.ins-title-text{display:block}
+.ins-title-line{display:block;overflow:hidden}
+.ins-title-line span{display:block}
+.ins-title-line:nth-child(1) span,.ins-title-line:nth-child(2) span,.ins-title-line:nth-child(3) span{opacity:0;transform:translateY(100%);transition:opacity .65s var(--eo),transform .65s var(--eo)}
+.ins-title-line.in span{opacity:1;transform:none}
+.ins-title-line:nth-child(2) span{transition-delay:.1s}
+.ins-title-line:nth-child(3) span{transition-delay:.2s}
+
+/* underline accent */
+.ins-underline{
+  display:block;width:64px;height:3px;background:var(--black);
+  border-radius:2px;margin-top:20px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .7s var(--eo) .3s;
+}
+.ins-title.in .ins-underline{transform:scaleX(1)}
+
+.inside-right{}
+.ins-body{font-size:15px;line-height:1.8;color:var(--tm);max-width:460px}
+
+/* Highlights grid */
+.inside-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.ihl{
+  background:var(--card);border-radius:var(--r32);padding:32px 28px;
+  border:1px solid var(--bl);
+  transition:transform .35s var(--es),box-shadow .35s,border-color .35s;
+}
+.ihl:hover{transform:translateY(-6px);box-shadow:var(--s3);border-color:var(--br)}
+.ihl-icon{width:44px;height:44px;background:var(--black);border-radius:12px;display:grid;place-items:center;margin-bottom:20px}
+.ihl-icon svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ihl-title{font-size:15px;font-weight:800;margin-bottom:8px;letter-spacing:-.3px}
+.ihl-desc{font-size:13px;color:var(--tm);line-height:1.65}
+
+/* ─────────────────────────────────────────────────────────────
+   NEWSLETTER
+───────────────────────────────────────────────────────────── */
+#delivery{padding:100px 56px;text-align:center;border-top:1px solid var(--bl)}
 .nl-in{max-width:560px;margin:0 auto}
 .nl-ic{width:54px;height:54px;background:var(--black);border-radius:50%;display:grid;place-items:center;margin:0 auto 26px}
 .nl-ic svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 .nl-t{font-size:clamp(26px,3vw,44px);font-weight:900;letter-spacing:-1.8px;line-height:1.1;margin-bottom:36px}
 .nl-t em{font-style:italic}
-.nl-f{display:flex;align-items:center;background:#fff;border-radius:var(--rp);padding:6px 6px 6px 22px;
-  border:1.5px solid var(--br);box-shadow:var(--s1);gap:8px;transition:border-color .2s,box-shadow .2s}
+.nl-f{
+  display:flex;align-items:center;background:#fff;border-radius:var(--rp);
+  padding:6px 6px 6px 22px;border:1.5px solid var(--br);box-shadow:var(--s1);gap:8px;
+  transition:border-color .2s,box-shadow .2s;
+}
 .nl-f:focus-within{border-color:#bbb;box-shadow:0 0 0 4px rgba(0,0,0,.06)}
 .nl-i{flex:1;border:none;outline:none;background:transparent;font-size:14px;font-family:inherit;color:var(--black);min-width:0}
 .nl-i::placeholder{color:var(--tm)}
-.nl-s{background:var(--black);color:#fff;border-radius:var(--rp);padding:13px 26px;font-size:13px;font-weight:700;font-family:inherit;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:transform .2s var(--es),background .2s,box-shadow .2s}
+.nl-s{
+  background:var(--black);color:#fff;border-radius:var(--rp);
+  padding:13px 26px;font-size:13px;font-weight:700;font-family:inherit;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;
+  transition:transform .2s var(--es),background .2s,box-shadow .2s;
+}
 .nl-s:hover{transform:scale(1.04);background:#2c2c2c;box-shadow:0 6px 18px rgba(0,0,0,.18)}
 
-/* ─── FOOTER ─── */
-.ft{background:#181818;color:#fff;padding:68px 56px 36px}
+/* ─────────────────────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────────────────────── */
+.ft{background:#181818;color:#fff;padding:68px 56px 40px}
 .ft-in{max-width:1280px;margin:0 auto}
 .ft-g{display:grid;grid-template-columns:1fr 1.6fr 1fr 1fr 1fr;gap:40px;padding-bottom:52px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:36px}
 .ft-lbl{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.35);margin-bottom:20px}
@@ -202,37 +474,85 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .ft-ni::placeholder{color:rgba(255,255,255,.28)}.ft-ni:focus{border-color:rgba(255,255,255,.28)}
 .ft-nb{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.12);border-radius:var(--r8);padding:11px 14px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .2s;text-align:center}
 .ft-nb:hover{background:rgba(255,255,255,.18)}
-.ft-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;color:rgba(255,255,255,.3)}
+.ft-bot{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.ft-bot-row{display:flex;align-items:center;justify-content:space-between;width:100%;flex-wrap:wrap;gap:10px}
+.ft-copy{font-size:12px;color:rgba(255,255,255,.35)}
+.ft-credit{font-size:12px;color:rgba(255,255,255,.28);margin-top:4px}
+.ft-credit a{color:rgba(255,255,255,.48);transition:color .2s}.ft-credit a:hover{color:rgba(255,255,255,.9)}
 .ft-bl{display:flex;gap:24px}
-.ft-bl a{color:rgba(255,255,255,.3);transition:color .2s}.ft-bl a:hover{color:rgba(255,255,255,.7)}
+.ft-bl a{font-size:12px;color:rgba(255,255,255,.3);transition:color .2s}.ft-bl a:hover{color:rgba(255,255,255,.7)}
 
-/* ─── RESPONSIVE ─── */
+/* ─────────────────────────────────────────────────────────────
+   VIDEO MODAL
+───────────────────────────────────────────────────────────── */
+.modal-bg{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;
+  opacity:0;transition:opacity .35s var(--eo);
+}
+.modal-bg.open{display:flex}
+.modal-bg.visible{opacity:1}
+.modal-box{
+  position:relative;width:90%;max-width:860px;
+  border-radius:var(--r22);overflow:hidden;
+  box-shadow:var(--s4);
+  transform:scale(.94) translateY(18px);
+  transition:transform .38s var(--eo);
+  background:#000;
+}
+.modal-bg.visible .modal-box{transform:scale(1) translateY(0)}
+.modal-box iframe{display:block;width:100%;aspect-ratio:16/9;border:none}
+.modal-close{
+  position:absolute;top:14px;right:14px;z-index:10;
+  width:36px;height:36px;background:rgba(255,255,255,.15);
+  border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  backdrop-filter:blur(4px);
+  transition:background .2s,transform .2s var(--es);
+}
+.modal-close:hover{background:rgba(255,255,255,.3);transform:scale(1.1)}
+.modal-close svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────────────────────── */
 @media(max-width:1100px){
-  .nav,.hero-in,.stats,.prods,.why,.promo,.nl,.ft{padding-left:36px;padding-right:36px}
+  .nav,#hero .hero-in,#stats,#products,#about,#store,#crafted,#inside,#delivery,.ft{padding-left:36px;padding-right:36px}
   .why-in{gap:48px}.ft-g{grid-template-columns:repeat(3,1fr)}
+  .crafted-in{gap:48px}.inside-top{gap:48px}
 }
 @media(max-width:860px){
   .nav-links{display:none}.ham{display:flex}
   .h1{font-size:40px;letter-spacing:-1.5px}
-  .himgw img{height:380px}.hcards{width:160px;padding-bottom:56px}.hcard img{height:86px}
+  .himgw img{height:380px}.hcards{width:158px;padding-bottom:52px}.hcard img{height:88px}
   .why-in{grid-template-columns:1fr;gap:40px}.wimgw img{height:380px}
   .stats-in{grid-template-columns:1fr}
   .stat:not(:last-child)::after{display:none}.stat{border-bottom:1px solid var(--br);padding:28px 24px}.stat:last-child{border-bottom:none}
   .pgrid{grid-template-columns:repeat(2,1fr);gap:14px}
   .ft-g{grid-template-columns:repeat(2,1fr)}
+  .crafted-in{grid-template-columns:1fr}.cc-right{display:none}
+  .inside-top{grid-template-columns:1fr}.inside-highlights{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:600px){
   .nav{padding:0 20px;height:62px}
   .hero-in{padding:32px 20px 48px}.stage{flex-direction:column;gap:20px}
-  .hcards{flex-direction:row;width:100%;padding-bottom:0;gap:12px}.hcard{flex:1}.hcard img{height:80px}
+  .hcards{flex-direction:row;width:100%;padding-bottom:0;gap:12px}.hcard{flex:1}.hcard img{height:78px}
   .himgw img{height:300px}
-  .stats,.prods,.why,.promo,.nl,.ft{padding-left:20px;padding-right:20px}
+  #stats,#products,#about,#store,#crafted,#inside,#delivery,.ft,.cta-strip{padding-left:20px;padding-right:20px}
   .pgrid{grid-template-columns:1fr}.pcard{height:420px}.pcont{padding:36px 32px}
   .nl-f{flex-direction:column;border-radius:var(--r32);padding:12px;gap:10px}
   .nl-i{text-align:center;padding:10px 4px}.nl-s{width:100%;padding:14px}
   .ft-g{grid-template-columns:1fr;gap:32px}.ft-brand{text-align:left}
+  .inside-highlights{grid-template-columns:1fr}
 }
-.drawer{position:fixed;top:72px;left:0;right:0;z-index:190;background:rgba(242,240,235,.97);backdrop-filter:blur(14px);padding:24px 28px 32px;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid var(--br);transform:translateY(-110%);transition:transform .4s var(--eo)}
+.drawer{
+  position:fixed;top:72px;left:0;right:0;z-index:290;
+  background:rgba(242,240,235,.97);backdrop-filter:blur(14px);
+  padding:24px 28px 32px;display:flex;flex-direction:column;gap:2px;
+  border-bottom:1px solid var(--br);
+  transform:translateY(-110%);transition:transform .4s var(--eo);
+}
 .drawer.open{transform:translateY(0)}
 .drawer a{font-size:16px;font-weight:600;color:var(--black);padding:14px 8px;border-bottom:1px solid var(--bl);transition:padding-left .2s}
 .drawer a:last-child{border-bottom:none}.drawer a:hover{padding-left:16px}
@@ -241,44 +561,56 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
 <nav class="nav" id="nav">
   <div class="logo">
     <div class="logo-mark">
       <svg viewBox="0 0 18 18"><rect x="1" y="1" width="7" height="7" rx="1.5"/><rect x="10" y="1" width="7" height="7" rx="1.5"/><rect x="1" y="10" width="7" height="7" rx="1.5"/><rect x="10" y="10" width="7" height="7" rx="1.5"/></svg>
     </div>
-    Modulive
+    Softera
   </div>
-  <ul class="nav-links">
-    <li><a href="#">Products</a></li>
-    <li><a href="#">About Us</a></li>
-    <li><a href="#">Our Store</a></li>
-    <li><a href="#">Delivery</a></li>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#products" data-target="products">Products</a></li>
+    <li><a href="#about"    data-target="about">About Us</a></li>
+    <li><a href="#store"    data-target="store">Our Store</a></li>
+    <li><a href="#delivery" data-target="delivery">Delivery</a></li>
   </ul>
-  <div class="nav-actions">
-    <button class="ni"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
-    <button class="ni"><svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
-    <button class="ni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
-    <button class="ham" id="ham"><span></span><span></span><span></span></button>
-  </div>
-</nav>
-<nav class="drawer" id="drawer">
-  <a href="#">Products</a><a href="#">About Us</a><a href="#">Our Store</a><a href="#">Delivery</a>
+  <button class="ham" id="ham" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
+<!-- Mobile drawer -->
+<nav class="drawer" id="drawer">
+  <a href="#products" onclick="closeDrawer()">Products</a>
+  <a href="#about"    onclick="closeDrawer()">About Us</a>
+  <a href="#store"    onclick="closeDrawer()">Our Store</a>
+  <a href="#delivery" onclick="closeDrawer()">Delivery</a>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section id="hero">
   <div class="hero-in">
     <div class="hero-text">
+      <!-- Badge pill -->
       <div class="hpill">
-        <!-- Unsplash direct CDN — sofa thumbnail -->
         <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=96&h=60&fit=crop&auto=format" alt="">
-        <span>Premium Collection 2024</span>
+        <span>Premium Collection 2026</span>
       </div>
-      <h1 class="h1">Transform Your Space<br>with Sustainable<br>Furniture</h1>
+
+      <!-- 2-line heading with line-by-line reveal -->
+      <h1 class="h1">
+        <span class="h1-line"><span>Spaces Worth</span></span>
+        <span class="h1-line"><span>Coming Home To.</span></span>
+      </h1>
+
+      <!-- Reviews -->
       <div class="hrev">
         <div class="avs">
-          <!-- pravatar.cc — dedicated avatar CDN, very reliable -->
           <img class="av" src="https://i.pravatar.cc/64?img=47" alt="">
           <img class="av" src="https://i.pravatar.cc/64?img=32" alt="">
           <img class="av" src="https://i.pravatar.cc/64?img=5"  alt="">
@@ -289,15 +621,19 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
     </div>
 
     <div class="stage">
+      <!-- Main sofa image -->
       <div class="himgw">
         <img id="par"
           src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1400&h=1040&fit=crop&auto=format&q=85"
           alt="Modern sofa">
-        <a href="#" class="hcta">
-          Shop Now
-          <div class="hcta-ic"><svg viewBox="0 0 14 14"><path d="M2 12L12 2M12 2H7M12 2V7"/></svg></div>
+        <!-- scroll down anchor -->
+        <a href="#products" class="hcta">
+          Explore Collection
+          <div class="hcta-ic"><svg viewBox="0 0 14 14"><path d="M7 2v10M2 7l5 5 5-5"/></svg></div>
         </a>
       </div>
+
+      <!-- Floating product cards -->
       <div class="hcards">
         <div class="hcard">
           <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=400&h=300&fit=crop&auto=format&q=80" alt="Muffin Chair">
@@ -314,8 +650,10 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
   </div>
 </section>
 
-<!-- STATS -->
-<section class="stats">
+<!-- ══════════════════════════════════════════
+     STATS
+══════════════════════════════════════════ -->
+<section id="stats">
   <div class="stats-in">
     <div class="stat sr" data-delay="0">
       <div class="stat-n" data-t="18" data-s="K+">0K+</div>
@@ -323,17 +661,33 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
     </div>
     <div class="stat sr" data-delay="120">
       <div class="stat-n" data-t="700" data-s="+">0+</div>
-      <p class="stat-d">Products that we have created and sold on the market</p>
+      <p class="stat-d">Products we have created and sold on the market</p>
     </div>
     <div class="stat sr" data-delay="240">
       <div class="stat-n" data-t="95" data-s="%">0%</div>
-      <p class="stat-d">Customers who have purchased and next come backward</p>
+      <p class="stat-d">Customers who have purchased and come back again</p>
     </div>
   </div>
 </section>
 
-<!-- PRODUCTS -->
-<section class="prods">
+<!-- ══════════════════════════════════════════
+     CTA STRIP
+══════════════════════════════════════════ -->
+<div class="cta-strip sr">
+  <a href="tel:+38348123123" class="cta-btn primary">
+    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.13 1 .37 1.97.72 2.9a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.93.35 1.9.59 2.9.72A2 2 0 0 1 21.54 16.5"/></svg>
+    Call Us
+  </a>
+  <a href="mailto:softera@gmail.com" class="cta-btn ghost">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Email Us
+  </a>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PRODUCTS
+══════════════════════════════════════════ -->
+<section id="products">
   <div class="sh sr">
     <h2 class="sh-t">Our Best Quality Products</h2>
     <div class="pills">
@@ -345,59 +699,138 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
     </div>
   </div>
   <div class="pgrid">
-    <div class="pc sr" data-delay="0" data-c="sofa">
+    <div class="pc sr" data-delay="0"   data-c="sofa">
       <div class="pc-img"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop&auto=format&q=80" alt="Easy Sofa"></div>
-      <div class="pc-ft"><div><div class="pc-n">Easy Sofa</div><div class="pc-p">$699.00</div></div><button class="arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      <div class="pc-ft"><div><div class="pc-n">Easy Sofa</div><div class="pc-p">$699.00</div></div></div>
     </div>
-    <div class="pc sr" data-delay="80" data-c="sofa">
+    <div class="pc sr" data-delay="80"  data-c="sofa">
       <div class="pc-img"><img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=600&h=400&fit=crop&auto=format&q=80" alt="Easy Sofa"></div>
-      <div class="pc-ft"><div><div class="pc-n">Easy Sofa</div><div class="pc-p">$549.00</div></div><button class="arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      <div class="pc-ft"><div><div class="pc-n">Easy Sofa</div><div class="pc-p">$549.00</div></div></div>
     </div>
     <div class="pc sr" data-delay="160" data-c="cabinet">
       <div class="pc-img"><img src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600&h=400&fit=crop&auto=format&q=80" alt="Cabinet"></div>
-      <div class="pc-ft"><div><div class="pc-n">Cabinet</div><div class="pc-p">$389.00</div></div><button class="arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      <div class="pc-ft"><div><div class="pc-n">Cabinet</div><div class="pc-p">$389.00</div></div></div>
     </div>
-    <div class="pc sr" data-delay="0" data-c="chair">
+    <div class="pc sr" data-delay="0"   data-c="chair">
       <div class="pc-img"><img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=600&h=400&fit=crop&auto=format&q=80" alt="Rumpi Chair"></div>
-      <div class="pc-ft"><div><div class="pc-n">Rumpi Chair</div><div class="pc-p">$249.00</div></div><button class="arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      <div class="pc-ft"><div><div class="pc-n">Rumpi Chair</div><div class="pc-p">$249.00</div></div></div>
     </div>
-    <div class="pc sr" data-delay="80" data-c="chair">
+    <div class="pc sr" data-delay="80"  data-c="chair">
       <div class="pc-img"><img src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=600&h=400&fit=crop&auto=format&q=80" alt="Romp Toll"></div>
-      <div class="pc-ft"><div><div class="pc-n">Romp Toll</div><div class="pc-p">$179.00</div></div><button class="arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      <div class="pc-ft"><div><div class="pc-n">Romp Toll</div><div class="pc-p">$179.00</div></div></div>
     </div>
     <div class="pc sr" data-delay="160" data-c="cabinet">
       <div class="pc-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&auto=format&q=80" alt="Almirah"></div>
-      <div class="pc-ft"><div><div class="pc-n">Almirah</div><div class="pc-p">$829.00</div></div><button class="arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      <div class="pc-ft"><div><div class="pc-n">Almirah</div><div class="pc-p">$829.00</div></div></div>
     </div>
   </div>
 </section>
 
-<!-- WHY CHOOSE US -->
-<section class="why">
+<!-- ══════════════════════════════════════════
+     WHY CHOOSE US  (About Us)
+══════════════════════════════════════════ -->
+<section id="about">
   <div class="why-in">
     <div class="sr L">
       <div class="wimgw">
         <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&h=1000&fit=crop&auto=format&q=85" alt="Living room">
-        <button class="wplay"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+        <!-- Play button opens YouTube modal -->
+        <button class="wplay" id="playBtn" aria-label="Play video">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
       </div>
-      <p class="wcap">Watch the video and learn more about Modulive</p>
+      <p class="wcap">Watch the video and learn more about Softera</p>
     </div>
     <div class="sr R">
       <p class="wey">Our Principles</p>
       <h2 class="wt">Why Choose Us</h2>
       <p class="wd">We create furniture that blends timeless aesthetics with sustainably sourced materials — giving every home the perfect balance of form, function, and conscience.</p>
       <div class="acc">
-        <div class="ai"><div class="ah" onclick="tAcc(this)"><span class="at">Sustainability</span><span class="aico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div><div class="ab"><p>Every piece is crafted from responsibly sourced materials. We partner with certified forests to minimise environmental impact while maximising the beauty of each product.</p></div></div>
-        <div class="ai on"><div class="ah" onclick="tAcc(this)"><span class="at">Unrivaled quality</span><span class="aico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div><div class="ab"><p>Our artisans combine traditional craftsmanship with modern precision. Each product undergoes rigorous quality checks to ensure it meets our exacting standards and lasts for generations.</p></div></div>
-        <div class="ai"><div class="ah" onclick="tAcc(this)"><span class="at">Unmatched variety</span><span class="aico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div><div class="ab"><p>From minimalist Scandinavian-inspired pieces to bold statement furniture, our catalogue spans hundreds of styles and configurations to match any interior vision.</p></div></div>
-        <div class="ai"><div class="ah" onclick="tAcc(this)"><span class="at">Legacy of excellence</span><span class="aico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div><div class="ab"><p>With over 15 years in the industry, Modulive has built a legacy of trust — delivering exceptional furniture to homes across 40+ countries worldwide.</p></div></div>
+        <div class="ai">
+          <div class="ah" onclick="tAcc(this)"><span class="at">Sustainability</span><span class="aico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
+          <div class="ab"><p>Every piece is crafted from responsibly sourced materials. We partner with certified forests to minimise environmental impact while maximising the beauty of each product.</p></div>
+        </div>
+        <div class="ai on">
+          <div class="ah" onclick="tAcc(this)"><span class="at">Unrivaled quality</span><span class="aico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
+          <div class="ab"><p>Our artisans combine traditional craftsmanship with modern precision. Each product undergoes rigorous quality checks to ensure it meets our exacting standards and lasts for generations.</p></div>
+        </div>
+        <div class="ai">
+          <div class="ah" onclick="tAcc(this)"><span class="at">Unmatched variety</span><span class="aico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
+          <div class="ab"><p>From minimalist Scandinavian-inspired pieces to bold statement furniture, our catalogue spans hundreds of styles and configurations to match any interior vision.</p></div>
+        </div>
+        <div class="ai">
+          <div class="ah" onclick="tAcc(this)"><span class="at">Legacy of excellence</span><span class="aico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></div>
+          <div class="ab"><p>With over 15 years in the industry, Softera has built a legacy of trust — delivering exceptional furniture to homes across 40+ countries worldwide.</p></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROMO BANNER -->
-<section class="promo">
+<!-- ══════════════════════════════════════════
+     CRAFTED COMFORT  (New Section A)
+══════════════════════════════════════════ -->
+<section id="crafted">
+  <div class="crafted-in">
+
+    <!-- Left: text + feature tags -->
+    <div class="cc-left">
+      <p class="cc-eyebrow sr">Crafted Comfort</p>
+      <h2 class="cc-title sr" data-delay="60">Built Around<br>How You Live</h2>
+      <p class="cc-body sr" data-delay="120">Every curve, every stitch, every material choice is made with your everyday comfort in mind. Softera pieces aren't just furniture — they're a way of living better.</p>
+
+      <div class="cc-tags">
+        <div class="cc-tag sr" data-delay="80">
+          <div class="cc-tag-dot">
+            <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+          </div>
+          <div class="cc-tag-info">
+            <div class="cc-tag-name">Premium Materials</div>
+            <div class="cc-tag-sub">Sustainably certified, built to last</div>
+          </div>
+        </div>
+        <div class="cc-tag sr" data-delay="160">
+          <div class="cc-tag-dot">
+            <svg viewBox="0 0 24 24"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+          </div>
+          <div class="cc-tag-info">
+            <div class="cc-tag-name">Handcrafted Finish</div>
+            <div class="cc-tag-sub">Artisan-made, quality you can feel</div>
+          </div>
+        </div>
+        <div class="cc-tag sr" data-delay="240">
+          <div class="cc-tag-dot">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </div>
+          <div class="cc-tag-info">
+            <div class="cc-tag-name">Timeless Design</div>
+            <div class="cc-tag-sub">Classic shapes, contemporary spirit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: layered image stack -->
+    <div class="cc-right sr R">
+      <div class="cc-img-main">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=900&fit=crop&auto=format&q=85" alt="Crafted comfort living room">
+      </div>
+      <div class="cc-img-accent">
+        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&h=440&fit=crop&auto=format&q=80" alt="Chair detail">
+      </div>
+      <div class="cc-badge">
+        ✦ Since 2009
+        <span>15+ years of craft</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PROMO BANNER  (Our Store)
+══════════════════════════════════════════ -->
+<section id="store">
   <div class="promo-in">
     <div class="pcard sr" id="pcard">
       <div class="pbg"><img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=1800&h=1040&fit=crop&auto=format&q=85" alt="Chairs"></div>
@@ -405,16 +838,72 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
       <button class="pappt">Book an appointment ↗</button>
       <div class="pcont">
         <h2 class="ph2">When We Create Furniture, We Strive For The Finest Quality</h2>
-        <a href="#" class="pbtn">See Products <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <!-- CTA scrolls to newsletter -->
+        <a href="#delivery" class="pbtn">
+          Get in Touch
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- NEWSLETTER -->
-<section class="nl">
+<!-- ══════════════════════════════════════════
+     INSIDE SOFTERA  (New Section B)
+══════════════════════════════════════════ -->
+<section id="inside">
+  <div class="inside-in">
+
+    <div class="inside-top">
+      <div class="inside-left">
+        <p class="ins-eyebrow sr">Inside Softera</p>
+        <h2 class="ins-title sr" id="insTitle">
+          <span class="ins-title-line"><span>Where Craft</span></span>
+          <span class="ins-title-line"><span>Meets</span></span>
+          <span class="ins-title-line"><span>Conscience.</span></span>
+          <em class="ins-underline"></em>
+        </h2>
+      </div>
+      <div class="inside-right sr R" data-delay="80">
+        <p class="ins-body">We started Softera with one belief: that beautiful furniture and responsible making are not opposites. Every piece we create is a quiet commitment to that idea — made with care, built to endure, and designed to feel like home.</p>
+      </div>
+    </div>
+
+    <div class="inside-highlights">
+      <div class="ihl sr" data-delay="0">
+        <div class="ihl-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="ihl-title">Sustainable Materials</div>
+        <p class="ihl-desc">Every piece uses FSC-certified wood, recycled metals, and natural textiles. We track the origin of every component.</p>
+      </div>
+      <div class="ihl sr" data-delay="100">
+        <div class="ihl-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="ihl-title">Built for Everyday Living</div>
+        <p class="ihl-desc">Tested for real life. Our furniture is engineered to stay beautiful after years of daily use — not just on day one.</p>
+      </div>
+      <div class="ihl sr" data-delay="200">
+        <div class="ihl-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="ihl-title">Designed for Modern Homes</div>
+        <p class="ihl-desc">Minimal lines, thoughtful proportions, and neutral tones that fit any room. Softera works with your space, not against it.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     NEWSLETTER  (Delivery)
+══════════════════════════════════════════ -->
+<section id="delivery">
   <div class="nl-in sr">
-    <div class="nl-ic"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+    <div class="nl-ic">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
     <h2 class="nl-t">Subscribe to our newsletter<br>and grab <em>30% OFF</em></h2>
     <form class="nl-f" onsubmit="doNl(event)">
       <input class="nl-i" type="email" placeholder="Enter your email address..." required>
@@ -423,61 +912,224 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
 <footer class="ft sr">
   <div class="ft-in">
     <div class="ft-g">
-      <div><div class="ft-lbl">Service</div><ul class="ft-links"><li><a href="#">Legal Notice</a></li><li><a href="#">Data Protection</a></li></ul></div>
-      <div><div class="ft-lbl">Newsletter</div><div class="ft-nf"><input class="ft-ni" type="email" placeholder="Enter Email Address"><button class="ft-nb">Sign Up</button></div></div>
-      <div class="ft-brand"><div class="ft-bname">Modulive</div><div class="ft-bsub">Sustainable Luxury Furniture<br>Since 2009</div></div>
-      <div><div class="ft-lbl">Connect</div><ul class="ft-links"><li><a href="#">Instagram</a></li><li><a href="#">Facebook</a></li></ul></div>
-      <div><div class="ft-lbl">Contact</div><ul class="ft-links"><li><a href="#">123 Design Street</a></li><li><a href="#">Stockholm, Sweden</a></li><li><a href="#">hello@modulive.com</a></li></ul></div>
+      <div>
+        <div class="ft-lbl">Service</div>
+        <ul class="ft-links"><li><a href="#">Legal Notice</a></li><li><a href="#">Data Protection</a></li></ul>
+      </div>
+      <div>
+        <div class="ft-lbl">Newsletter</div>
+        <div class="ft-nf">
+          <input class="ft-ni" type="email" placeholder="Enter Email Address">
+          <button class="ft-nb">Sign Up</button>
+        </div>
+      </div>
+      <div class="ft-brand">
+        <div class="ft-bname">Softera</div>
+        <div class="ft-bsub">Sustainable Luxury Furniture<br>Since 2009</div>
+      </div>
+      <div>
+        <div class="ft-lbl">Connect</div>
+        <ul class="ft-links"><li><a href="#">Instagram</a></li><li><a href="#">Facebook</a></li></ul>
+      </div>
+      <div>
+        <div class="ft-lbl">Contact</div>
+        <ul class="ft-links"><li><a href="#">123 Design Street</a></li><li><a href="#">Stockholm, Sweden</a></li><li><a href="#">hello@softera.com</a></li></ul>
+      </div>
     </div>
     <div class="ft-bot">
-      <span>© 2024 Modulive. All rights reserved.</span>
-      <div class="ft-bl"><a href="#">Terms of Service</a><a href="#">Privacy Policy</a></div>
+      <div class="ft-bot-row">
+        <span class="ft-copy">© 2026 Softera. All rights reserved.</span>
+        <div class="ft-bl"><a href="#">Terms of Service</a><a href="#">Privacy Policy</a></div>
+      </div>
+      <p class="ft-credit">Website made with love by <a href="#">Illyrian Digital</a>.</p>
     </div>
   </div>
 </footer>
 
+<!-- ══════════════════════════════════════════
+     VIDEO MODAL
+══════════════════════════════════════════ -->
+<div class="modal-bg" id="modal" role="dialog" aria-modal="true" aria-label="Video">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" id="modalClose" aria-label="Close">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <!-- YouTube embed — replaced with real embed on open -->
+    <div id="modalPlayer"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════ -->
 <script>
-/* Scroll reveal */
-const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;const d=+(e.target.dataset.delay||0);setTimeout(()=>e.target.classList.add('in'),d);obs.unobserve(e.target)})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.sr').forEach(el=>obs.observe(el));
+/* ─── SCROLL REVEAL ─── */
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const d = +(e.target.dataset.delay || 0);
+    setTimeout(() => e.target.classList.add('in'), d);
+    revObs.unobserve(e.target);
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+document.querySelectorAll('.sr').forEach(el => revObs.observe(el));
 
-/* Promo scale-in */
-const pc=document.getElementById('pcard');
-if(pc){const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){pc.classList.add('in');o.unobserve(pc)}},{threshold:.15});o.observe(pc)}
+/* ─── "INSIDE SOFTERA" TITLE MASK REVEAL ─── */
+const insObs = new IntersectionObserver(([e]) => {
+  if (!e.isIntersecting) return;
+  const title = e.target;
+  title.classList.add('in');
+  title.querySelectorAll('.ins-title-line').forEach((ln, i) => {
+    setTimeout(() => ln.classList.add('in'), i * 110);
+  });
+  insObs.unobserve(title);
+}, { threshold: 0.2 });
+const insTitle = document.getElementById('insTitle');
+if (insTitle) insObs.observe(insTitle);
 
-/* Count-up */
-let done=false;
-const so=new IntersectionObserver(([e])=>{if(e.isIntersecting&&!done){done=true;document.querySelectorAll('.stat-n[data-t]').forEach((el,i)=>setTimeout(()=>count(el),i*140))}},{threshold:.3});
-const ss=document.querySelector('.stats');if(ss)so.observe(ss);
-function count(el){const t=+el.dataset.t,s=el.dataset.s||'',d=1800,t0=performance.now();(function f(n){const p=Math.min((n-t0)/d,1),v=Math.floor((1-Math.pow(1-p,3))*t);el.textContent=v+s;p<1?requestAnimationFrame(f):el.textContent=t+s})(t0)}
+/* ─── STATS COUNT-UP ─── */
+let counted = false;
+const statsObs = new IntersectionObserver(([e]) => {
+  if (e.isIntersecting && !counted) {
+    counted = true;
+    document.querySelectorAll('.stat-n[data-t]').forEach((el, i) => {
+      setTimeout(() => count(el), i * 150);
+    });
+  }
+}, { threshold: 0.3 });
+const statsEl = document.getElementById('stats');
+if (statsEl) statsObs.observe(statsEl);
 
-/* Pill filter */
-document.querySelectorAll('.pill').forEach(p=>p.addEventListener('click',function(){
-  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('on'));this.classList.add('on');
-  const c=this.dataset.c;
-  document.querySelectorAll('.pc').forEach(card=>{const show=c==='all'||card.dataset.c===c;card.style.cssText=show?'':'opacity:.2;transform:scale(.97);pointer-events:none'});
+function count(el) {
+  const target = +el.dataset.t, suffix = el.dataset.s || '';
+  const dur = 1800, t0 = performance.now();
+  (function tick(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    const v = Math.floor((1 - Math.pow(1 - p, 3)) * target);
+    el.textContent = v + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+    else { el.textContent = target + suffix; el.classList.add('pop'); }
+  })(t0);
+}
+
+/* ─── PROMO SCALE-IN ─── */
+const pcard = document.getElementById('pcard');
+if (pcard) {
+  const po = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) { pcard.classList.add('in'); po.unobserve(pcard); }
+  }, { threshold: 0.15 });
+  po.observe(pcard);
+}
+
+/* ─── CATEGORY FILTER ─── */
+document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', function () {
+  document.querySelectorAll('.pill').forEach(x => x.classList.remove('on'));
+  this.classList.add('on');
+  const cat = this.dataset.c;
+  document.querySelectorAll('.pc').forEach(card => {
+    const show = cat === 'all' || card.dataset.c === cat;
+    card.style.transition = 'opacity .3s ease, transform .3s ease';
+    card.style.opacity = show ? '1' : '0.18';
+    card.style.transform = show ? '' : 'scale(.97)';
+    card.style.pointerEvents = show ? '' : 'none';
+  });
 }));
 
-/* Accordion */
-function tAcc(h){const i=h.closest('.ai'),w=i.classList.contains('on');document.querySelectorAll('.ai').forEach(x=>x.classList.remove('on'));if(!w)i.classList.add('on')}
+/* ─── ACCORDION ─── */
+function tAcc(h) {
+  const item = h.closest('.ai'), was = item.classList.contains('on');
+  document.querySelectorAll('.ai').forEach(x => x.classList.remove('on'));
+  if (!was) item.classList.add('on');
+}
 
-/* Hero parallax */
-const pi=document.getElementById('par');let tk=false;
-window.addEventListener('scroll',()=>{if(tk)return;requestAnimationFrame(()=>{if(pi&&scrollY<innerHeight*1.2)pi.style.transform=`translateY(${scrollY*.07}px)`;tk=false});tk=true},{passive:true});
+/* ─── NAVBAR: SCROLL SHADOW + ACTIVE LINK ─── */
+const nav = document.getElementById('nav');
+const sections = ['hero','stats','products','about','crafted','store','inside','delivery'];
+const navAs = document.querySelectorAll('.nav-links a[data-target]');
 
-/* Navbar shadow */
-window.addEventListener('scroll',()=>document.getElementById('nav').style.boxShadow=scrollY>30?'0 2px 28px rgba(0,0,0,.08)':'none',{passive:true});
+window.addEventListener('scroll', () => {
+  // shadow
+  nav.classList.toggle('scrolled', window.scrollY > 20);
 
-/* Hamburger */
-const ham=document.getElementById('ham'),dr=document.getElementById('drawer');let op=false;
-ham.addEventListener('click',()=>{op=!op;dr.classList.toggle('open',op);const s=ham.querySelectorAll('span');s[0].style.transform=op?'translateY(7px) rotate(45deg)':'';s[1].style.opacity=op?'0':'';s[2].style.transform=op?'translateY(-7px) rotate(-45deg)':''});
+  // active link
+  let current = '';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 120) current = id;
+  });
+  navAs.forEach(a => {
+    a.classList.toggle('active', a.dataset.target === current);
+  });
+}, { passive: true });
 
-/* Newsletter */
-function doNl(e){e.preventDefault();const b=e.target.querySelector('.nl-s');b.textContent='Subscribed ✓';b.style.background='#2d7a4a';setTimeout(()=>{b.textContent='Subscribe';b.style.background='';e.target.reset()},3000)}
+/* ─── HERO PARALLAX ─── */
+const par = document.getElementById('par');
+let tk = false;
+window.addEventListener('scroll', () => {
+  if (tk) return;
+  requestAnimationFrame(() => {
+    if (par && scrollY < innerHeight * 1.2)
+      par.style.transform = `translateY(${scrollY * 0.07}px)`;
+    tk = false;
+  });
+  tk = true;
+}, { passive: true });
+
+/* ─── HAMBURGER ─── */
+const ham = document.getElementById('ham');
+const drawer = document.getElementById('drawer');
+let open = false;
+ham.addEventListener('click', () => {
+  open = !open;
+  drawer.classList.toggle('open', open);
+  const s = ham.querySelectorAll('span');
+  s[0].style.transform = open ? 'translateY(7px) rotate(45deg)' : '';
+  s[1].style.opacity   = open ? '0' : '';
+  s[2].style.transform = open ? 'translateY(-7px) rotate(-45deg)' : '';
+});
+function closeDrawer() { open = false; drawer.classList.remove('open'); ham.querySelectorAll('span').forEach(s => { s.style.transform=''; s.style.opacity=''; }); }
+
+/* ─── VIDEO MODAL ─── */
+const modal  = document.getElementById('modal');
+const mBox   = document.getElementById('modalBox');
+const mClose = document.getElementById('modalClose');
+const mPlayer= document.getElementById('modalPlayer');
+const YT_ID  = 'ScMzIvxBSi4'; // real YouTube embed
+
+function openModal() {
+  mPlayer.innerHTML = `<iframe src="https://www.youtube.com/embed/${YT_ID}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+  modal.style.display = 'flex';
+  requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('visible')));
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  modal.classList.remove('visible');
+  setTimeout(() => {
+    modal.style.display = 'none';
+    mPlayer.innerHTML = ''; // stop video
+    document.body.style.overflow = '';
+  }, 350);
+}
+
+document.getElementById('playBtn').addEventListener('click', openModal);
+mClose.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (!mBox.contains(e.target)) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ─── NEWSLETTER ─── */
+function doNl(e) {
+  e.preventDefault();
+  const b = e.target.querySelector('.nl-s');
+  b.textContent = 'Subscribed ✓';
+  b.style.background = '#2d7a4a';
+  setTimeout(() => { b.textContent = 'Subscribe'; b.style.background = ''; e.target.reset(); }, 3000);
+}
 </script>
 </body>
 </html>
